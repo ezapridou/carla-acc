@@ -24,6 +24,8 @@ import math
 # rtamt Monitor for a pair of vehicles
 class Monitor:
 
+    REQUIREMENT = "R" # set the requirement to be checked by the monitor
+
     # initializer
     def __init__(self, rearVehicle, frontVehicle):
         self.rearVehicle = rearVehicle # rear vehicle
@@ -45,13 +47,31 @@ class Monitor:
         self.spec.declare_var('dist', 'float')
         self.spec.declare_var('SD', 'float')
         self.spec.declare_var('rob', 'float')
+        self.spec.declare_var('accF', 'float')
+        self.spec.declare_var('accR', 'float')
+        self.spec.declare_var('vF', 'float')
+        self.spec.declare_var('vR', 'float')
+        self.spec.declare_var('trafficLightR', 'int')
 
-        self.spec.set_var_io_type('dist', rtamt.StlIOType.OUT)
         self.spec.set_var_io_type('SD', rtamt.StlIOType.IN)
         self.spec.set_var_io_type('rob', rtamt.StlIOType.OUT)
+        self.spec.set_var_io_type('accF', rtamt.StlIOType.IN)
+        self.spec.set_var_io_type('accR', rtamt.StlIOType.OUT)
+        self.spec.set_var_io_type('vF', rtamt.StlIOType.IN)
+        self.spec.set_var_io_type('vR', rtamt.StlIOType.OUT)
+        self.spec.set_var_io_type('trafficLightR', rtamt.StlIOType.IN)
 
         # set the requirement the monitor will check
-        self.spec.spec = 'rob = (dist - SD >= 0)'
+        if (REQUIREMENT == "R"):
+            self.spec.set_var_io_type('dist', rtamt.StlIOType.OUT)
+            self.spec.spec = 'rob = (dist - SD >= 0)'
+        elif (REQUIREMENT == "R1"):
+            self.spec.set_var_io_type('dist', rtamt.StlIOType.IN)
+            self.spec.spec = 'rob = (vF - vR < 1.5) or (dist > 100) or trafficLightR==1'
+        else:
+            self.spec.set_var_io_type('dist', rtamt.StlIOType.IN)
+            self.spec.spec = 'rob = (accF <= -5.2) or (always[0:3] (accR > -5.2 or trafficLightR==1))'
+
 
         try:
             self.spec.parse()
@@ -96,11 +116,9 @@ class Monitor:
 
             timestamp = event['timestamp']
 
-
-            trafficF = vehicleF.is_at_traffic_light()
             trafficR = vehicleR.is_at_traffic_light()
 
-            rob = self.spec.update(timestamp, [('dist', dist), ('SD', SD)])
+            rob = self.spec.update(timestamp, [('dist', dist), ('SD', SD), ('accF', accF), ('accR', accR), ('vF', speedF_m_s), ('vR', speedR_m_s), ('trafficLightR', trafficR)])
 
             # store signals
             self.distances.append(dist)

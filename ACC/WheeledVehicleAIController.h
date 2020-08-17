@@ -302,9 +302,6 @@ private:
 
   std::queue<FVector> TargetLocations;
 
-  //UPROPERTY()
-  //AVehiclePIDController PIDController = nullptr;
-  //std::deque<float> buffer; //buffer for the PID controller
   float velocity_intergal = 0.0f;
   float prev_velocity = 0.0f;
   args_long args_longitudinal; // longitudinal arguments for the PID controller
