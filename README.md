@@ -1,8 +1,8 @@
 # Adaptive Cruise Control System (ACC) in the [CARLA Simulator](https://carla.readthedocs.io/en/latest/)
-This repository contains the extended files to implement an ACC system in the CARLA Simulator. This system was used in order to experiment with the runtime verification approach proposed in "Runtime Verification of Autonomous Driving Systems in CARLA" published in [RV2020](https://rv20.ait.ac.at/) by E. Zapridou, E. Bartocci, P. Katsaros.
+This repository contains the files that were extended in the CARLA Simulator in order to implement an ACC system. This system was used to experiment with the runtime verification approach proposed in "Runtime Verification of Autonomous Driving Systems in CARLA" (to be published in [RV2020](https://rv20.ait.ac.at/) by E. Zapridou, E. Bartocci, P. Katsaros).
 
 ## ACC extension
-In the folder [ACC](https://github.com/ezapridou/carla-acc/tree/master/ACC) you can find the files of the CARLA Simulator that were extended to implement the ACC system. The paths of these files are the following:
+In the folder [ACC](https://github.com/ezapridou/carla-acc/tree/master/ACC) you can find the files that were extended to implement the ACC system. The paths of these files are the following:
 ```bash
 Unreal/CarlaUE4/Plugins/Carla/Source/Carla/Vehicle/WheeledVehicleAIController.h
 Unreal/CarlaUE4/Plugins/Carla/Source/Carla/Vehicle/WheeledVehicleAIController.cpp
