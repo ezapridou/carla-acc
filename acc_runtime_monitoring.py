@@ -70,7 +70,7 @@ class Monitor:
             self.spec.spec = 'rob = (vF - vR < 1.5) or (dist > 100) or trafficLightR==1'
         else:
             self.spec.set_var_io_type('dist', rtamt.StlIOType.IN)
-            self.spec.spec = 'rob = (accF <= -5.2) or (always[0:3] (accR > -5.2 or trafficLightR==1))'
+            self.spec.spec = 'rob = (accR >= -5.2) or (hist[0:3] (accF < -5.2)) or trafficLightR==1)'
 
 
         try:
